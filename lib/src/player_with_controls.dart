@@ -3,15 +3,24 @@ import 'package:chewie/src/helpers/adaptive_controls.dart';
 import 'package:chewie/src/notifiers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayerWithControls extends StatelessWidget {
-  const PlayerWithControls({Key? key}) : super(key: key);
+  PlayerWithControls({
+    Key? key,
+    this.subtitleController,
+    this.showSubtitle = true,
+  }) : super(key: key);
+
+  final SubtitleController? subtitleController;
+  late VideoPlayer videoPlayer;
+  final bool showSubtitle;
 
   @override
   Widget build(BuildContext context) {
     final ChewieController chewieController = ChewieController.of(context);
-
+    videoPlayer = VideoPlayer(chewieController.videoPlayerController);
     double _calculateAspectRatio(BuildContext context) {
       final size = MediaQuery.of(context).size;
       final width = size.width;
@@ -45,7 +54,23 @@ class PlayerWithControls extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: chewieController.aspectRatio ??
                     chewieController.videoPlayerController.value.aspectRatio,
-                child: VideoPlayer(chewieController.videoPlayerController),
+                child: subtitleController != null &&
+                        subtitleController!.subtitleUrl != null &&
+                        showSubtitle
+                    ? SubTitleWrapper(
+                        videoPlayerController:
+                            chewieController.videoPlayerController,
+                        subtitleController: subtitleController!,
+                        subtitleStyle: const SubtitleStyle(
+                          textColor: Colors.yellow,
+                          hasBorder: true,
+                          position: SubtitlePosition(
+                            bottom: 40.0,
+                          ),
+                        ),
+                        videoChild: videoPlayer,
+                      )
+                    : videoPlayer,
               ),
             ),
           ),

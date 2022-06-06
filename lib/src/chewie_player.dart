@@ -9,6 +9,7 @@ import 'package:chewie/src/player_with_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:subtitle_wrapper_package/subtitle_controller.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -27,10 +28,14 @@ class Chewie extends StatefulWidget {
   const Chewie({
     Key? key,
     required this.controller,
+    this.subtitleController,
+    this.showSubtitle = true,
   }) : super(key: key);
 
   /// The [ChewieController]
   final ChewieController controller;
+  final SubtitleController? subtitleController;
+  final bool showSubtitle;
 
   @override
   ChewieState createState() {
@@ -87,7 +92,10 @@ class ChewieState extends State<Chewie> {
       controller: widget.controller,
       child: ChangeNotifierProvider<PlayerNotifier>.value(
         value: notifier,
-        builder: (context, w) => const PlayerWithControls(),
+        builder: (context, w) => PlayerWithControls(
+          subtitleController: widget.subtitleController,
+          showSubtitle: widget.showSubtitle,
+        ),
       ),
     );
   }
@@ -130,7 +138,10 @@ class ChewieState extends State<Chewie> {
       controller: widget.controller,
       child: ChangeNotifierProvider<PlayerNotifier>.value(
         value: notifier,
-        builder: (context, w) => const PlayerWithControls(),
+        builder: (context, w) => PlayerWithControls(
+          subtitleController: widget.subtitleController,
+          showSubtitle: widget.showSubtitle,
+        ),
       ),
     );
 
