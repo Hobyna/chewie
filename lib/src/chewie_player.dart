@@ -193,9 +193,9 @@ class ChewieState extends State<Chewie> {
   }
 
   void onEnterFullScreen() {
-    final videoWidth = widget.controller.videoPlayerController.value.size.width;
-    final videoHeight =
-        widget.controller.videoPlayerController.value.size.height;
+    // final videoWidth = widget.controller.videoPlayerController.value.size.width;
+    // final videoHeight =
+    //     widget.controller.videoPlayerController.value.size.height;
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
@@ -216,30 +216,36 @@ class ChewieState extends State<Chewie> {
         widget.controller.deviceOrientationsOnEnterFullScreen!,
       );
     } else {
-      final isLandscapeVideo = videoWidth > videoHeight;
-      final isPortraitVideo = videoWidth < videoHeight;
+      /// always rotate video
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
 
-      /// Default behavior
-      /// Video w > h means we force landscape
-      if (isLandscapeVideo) {
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.landscapeLeft,
-          DeviceOrientation.landscapeRight,
-        ]);
-      }
-
-      /// Video h > w means we force portrait
-      else if (isPortraitVideo) {
-        SystemChrome.setPreferredOrientations([
-          DeviceOrientation.portraitUp,
-          DeviceOrientation.portraitDown,
-        ]);
-      }
-
-      /// Otherwise if h == w (square video)
-      else {
-        SystemChrome.setPreferredOrientations(DeviceOrientation.values);
-      }
+      // final isLandscapeVideo = videoWidth > videoHeight;
+      // final isPortraitVideo = videoWidth < videoHeight;
+      //
+      // /// Default behavior
+      // /// Video w > h means we force landscape
+      // if (isLandscapeVideo) {
+      //   SystemChrome.setPreferredOrientations([
+      //     DeviceOrientation.landscapeLeft,
+      //     DeviceOrientation.landscapeRight,
+      //   ]);
+      // }
+      //
+      // /// Video h > w means we force portrait
+      // else if (isPortraitVideo) {
+      //   SystemChrome.setPreferredOrientations([
+      //     DeviceOrientation.portraitUp,
+      //     DeviceOrientation.portraitDown,
+      //   ]);
+      // }
+      //
+      // /// Otherwise if h == w (square video)
+      // else {
+      //   SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+      // }
     }
   }
 }
