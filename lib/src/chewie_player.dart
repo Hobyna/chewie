@@ -182,9 +182,7 @@ class ChewieState extends State<Chewie> {
     /// fix bug: after exit from fullscreen player stop
     if(kIsWeb){
       final position = await widget.controller.videoPlayerController.position;
-      widget.controller.videoPlayerController.initialize();
-      await widget.controller.videoPlayerController.pause();
-      await widget.controller.videoPlayerController.play();
+      await widget.controller.videoPlayerController.initialize();
       widget.controller.videoPlayerController.seekTo(position!);
     }
 
