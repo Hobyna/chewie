@@ -56,6 +56,11 @@ void dispose() {
 }
 ```
 
+## HLS
+you can also play HLS links, with pass HLS source link
+but in web for supports by all browsers, you must implement below package
+[`video_player_web_hls`](https://pub.dev/packages/video_player_web_hls)
+
 ## Options
 
 ![](https://github.com/brianegan/chewie/raw/master/assets/Options.png)
