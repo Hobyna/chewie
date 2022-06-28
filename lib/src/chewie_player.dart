@@ -6,6 +6,7 @@ import 'package:chewie/src/models/options_translation.dart';
 import 'package:chewie/src/models/subtitle_model.dart';
 import 'package:chewie/src/notifiers/player_notifier.dart';
 import 'package:chewie/src/player_with_controls.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -176,6 +177,18 @@ class ChewieState extends State<Chewie> {
       context,
       rootNavigator: widget.controller.useRootNavigator,
     ).push(route);
+
+
+    /// fix bug: after exit from fullscreen player stop
+    if(kIsWeb){
+      final position = await widget.controller.videoPlayerController.position;
+      widget.controller.videoPlayerController.initialize();
+      await widget.controller.videoPlayerController.pause();
+      await widget.controller.videoPlayerController.play();
+      widget.controller.videoPlayerController.seekTo(position!);
+    }
+
+
     _isFullScreen = false;
     widget.controller.exitFullScreen();
 
