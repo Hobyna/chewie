@@ -9,6 +9,7 @@ class VideoProgressBar extends StatefulWidget {
     this.onDragEnd,
     this.onDragStart,
     this.onDragUpdate,
+    this.onTapDown,
     Key? key,
     required this.barHeight,
     required this.handleHeight,
@@ -21,6 +22,7 @@ class VideoProgressBar extends StatefulWidget {
   final Function()? onDragStart;
   final Function()? onDragEnd;
   final Function()? onDragUpdate;
+  final Function()? onTapDown;
 
   final double barHeight;
   final double handleHeight;
@@ -97,6 +99,8 @@ class _VideoProgressBarState extends State<VideoProgressBar> {
           return;
         }
         _seekToRelativePosition(details.globalPosition);
+
+        widget.onTapDown?.call();
       },
       child: Center(
         child: Container(
